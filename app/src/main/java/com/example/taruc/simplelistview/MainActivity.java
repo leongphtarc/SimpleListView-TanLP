@@ -1,0 +1,66 @@
+package com.example.taruc.simplelistview;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private EditText editTextName;
+    private Button buttonSave;
+    private ListView listView;
+    private ArrayList<String> array;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        editTextName = (EditText) findViewById(R.id.editTextName);
+        buttonSave = (Button)findViewById(R.id.buttonSave);
+        listView = (ListView) findViewById(R.id.listView);
+        array = new ArrayList<String>();
+
+        buttonSave.setOnClickListener(this);
+
+
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        //grab text
+        String input = editTextName.getText().toString();
+
+        //check whether the user key in anything
+        if(input.equals("") && input.trim().equals("")){
+            Toast.makeText(getApplicationContext(),
+                    "Input is empty",
+                    Toast.LENGTH_LONG)
+                    .show();
+            editTextName.setText("");
+        }else if(array.contains(input)){
+            Toast.makeText(getApplicationContext(),
+                    "Input already exist",
+                    Toast.LENGTH_LONG)
+                    .show();
+            editTextName.setText("");
+        }else{
+            array.add(input);
+            editTextName.setText("");
+
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                R.layout.support_simple_spinner_dropdown_item,
+                array);
+        listView.setAdapter(adapter);
+    }
+}
